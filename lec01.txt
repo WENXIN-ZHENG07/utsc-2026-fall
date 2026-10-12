@@ -1,0 +1,108 @@
+A0 covers:
+basic of knowledege/bash
+set up programming environment,connect to matlab
+
+Language:C++20->g++
+
+Intro
+Hello world in C++
+import<iostream>;
+int main(){
+    std::cout<<"Hello world!"<<std::endl;
+    return 0;
+}
+g++20h iostream
+g++20 hello.cc -o hello
+./hello
+g++ -std=c++20 
+-main must return int
+-return stmt
+    - return code to OS
+    -can be ommited from main(0 is assumed)
+-stdio,printf still available in C++
+but prefered <iostream>
+   std::cout << data << data << ... << stf::endl
+   endl: end of line + flush the buffer
+   Most c programs work in c++(or require minimal changes)
+
+Constant
+const int maxgrade = 100;// must be initialized cannot be changed
+Data structures 
+struct Node{
+    int data;
+    struct Node *next;
+}
+-user defined data type
+-set of data elements(members)grouped together under one name
+Node n{5, nullptr}//  null -> dont use it
+cont Node n2 = n;// immutable copy of n
+
+Parameter passing
+void inc(int n){ return ++n;}
+...
+int x = 5;
+inc(x);
+cout<< x <<endl;//5
+- inc get copy of 5
+-mutates copy
+-original x remains unchanged
+
+PASS BY VALUE
+void inc(int *n){++*n;}
+int x = 5;
+inc(&x);
+cout<< x <<endl//6
+use References!
+//Def：reference，引用
+int y = 10;
+int &z = y;// -z is an references to y;
+z=12 not *z = 12//z不占内存，是y的另一个名字
+//参数直接用引用
+void inc(int &n){++n;}   // 参数是引用,所以可以改，与n不同；与*n不同，不是指针
+inc(y);                   // 直接传 x,不用 &x
+cout << y << endl;        // 输出 13
+-z behaves like y
+-if we add us
+& -ampersand 
+references int &z =
+address of =&z
+Things we cannot do with refs:
+- ;eave them uninitialized, eg: int&x;
+- they must be initialized with sth that has an address
+int &x = 3// NO
+int &x = y + z; noexcept
+int&x = y // ok;
+- create pointer to a refernece, e.g int &*x;
+-ref to pointer is ok , int *&x;
+-create an refernce to a reference 
+-create an array of references e.g int &r[3] = {n,n,n}//no
+what can do?
+-pass as a function parameter
+oid inc(int &n)// const ptr to the argument
+// changes to n affect he original argument ++n;// no pointers dereferences
+
+pass by value
+int f(really big rv){}
+-copy
+-potentially slow
+
+pass by ref
+int g(big &rb)
+-fast
+-could change original dates
+
+Pass by const ref
+int h(const big &rb){
+    reallybig rb2 = rb;
+    ..//mutate rb2
+}
+-fast
+-no copy
+- cannot change original data
+-Prefer pass- by-const-ref 
+-In case function needs a copy ,then use pass by value
+
+int f(int &n);
+int g(const int &n);
+f(5)// No
+g(5) //y 

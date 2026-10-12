@@ -1,0 +1,129 @@
+Line::Line{const point&p1, const point &p2};
+p1{p1}, p2{p2} {}
+     ...obj
+Student s{60, 70, 80}
+student s2 = s;
+This construction works by constructing one object as a copy of another=copy ctor
+-Every class comes with default ctor
+-default ctor
+-lost if you write a copy constructor - copy all fields
+-destructor
+-copy assignment operator
+-move ctor
+-move assignment operator
+struct Student{
+    int assms test, final;
+    Student (const Student&other): assns{other.assns},
+    test{other.test} .....
+}
+Sometimes the built-in ctor may not correct
+
+struct Node{
+    int data;
+    Node *next;
+}
+Node *n = new Node{1, new Node{2, new Node{3, Nullptr}}}
+Node m = *n;
+Node *p = new Node{*n}; // just copy ctor,
+single copy of fields => only the first node is actually copied (shallow copy)
+deep copy => copies the whole list => must write our copy ctor
+Struct Node{
+    int data
+    Node *next
+    ...
+    //copy ctor (deep copy)
+    Node(const Node &other) : data {other.data},
+    next{other.next ? new Node{*other.next}: Nullptr}} {}//copy
+    conditional operator (ternary operator)
+    condition ? expression1 : expression2
+                condition=true condition=false
+    when is copy ctor called
+    -when an obi is initiallized by another obj of same type
+    -when obj is passed by value
+    -when an obj is returned by value
+
+    struct Node{
+        ...
+        Node{Node other}:...{}//infinite recursion: calls copy ctor before we start executing copy ctor
+    }
+ struct Node{
+    ...
+    Node(int data) : data{data}, next{nullptr} { }
+ }
+
+
+ single-arg ctor
+ node n(4);
+ Node n = 4;//implictly converting int 4 to Node
+ int f(Node n);
+ f(4);
+- accidently passed an int to a function that expects Node
+-silently conversion
+-compiler does not signal an error
+-potential errors are not caught
+
+Advice:don't do things limit the capacity of the compiler to help you
+-
+
+struct Node{
+    explicit Node(int data) :data {data}, next{nullptr}
+}
+Node n(4);//ok
+Node n =4;//error
+f(4);//error
+f(Node(4))//ok
+
+when an object is destroyed
+stack-allocated goes out if scope
+heap -allocated call "delete"
+
+object destruction steps:
+1.Dtor body runs
+2.fields dtors invoked(reverse order of declairation)
+3.space is deallocated
+
+struct Node{
+    int data;
+    Node *next;//manage or owns memory
+}
+Node *p = new Node{1, new Node{2,new Node{3, nullptr}}}// np is out of scope = it is destroyed
+delete np;//-first node is destroyed
+-Node destructor body runs(do nothing)
+-rest of the list is leaked
+
+struct Node{
+    int data;
+    Node *next;//manage or owns memory
+
+    ~Node() {delete next;}
+}
+- deleting nullptr is safe!
+-stops the recursion
+
+struct Student{
+    ~Student(){}
+}
+
+Copy assignment operator
+
+Student s1{60,70,80};
+Student s2{s1};//copy ctor
+Student s3;
+...
+s3 = s1;// copy assignment operator
+
+copy assignment operator
+struct Node{
+    ...
+   Node &operator = (const Node &other){
+    data = other.data
+    next = other.next ? new Node(*other.next) : nullptr;
+    return *this;
+   }
+
+}
+solution
+Node &operator = (const Node&other){
+    data = other.data;
+    delete next;
+}

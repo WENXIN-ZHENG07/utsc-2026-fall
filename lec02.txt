@@ -1,0 +1,156 @@
+In c:
+int *p = malloc(... sizeof(int))
+...
+free(p)
+In c++:
+- use new/delete
+struct Node(...);
+
+Node *np = new Node;
+np is going to be one the stack;
+Node is on the heap;
+np pointing to the Node; from stack to heap
+-all local variables reside on the stack
+-variables are deallocated when they go out of scope
+...
+delete np;
+
+...foo(...){
+    intx= ...
+    return x;
+}
+x is not in memory after this
+- allocated memory resides on the heap, it remains in the memory1 until we call delete
+-if you dont delete all allocated memory1, this is a memory leak
+...foo(...){
+    Node *np = new Node;
+    int x= ...
+    return x;
+}
+--np is no longer in memory, but new Node is still in the heap,it has no pointer pointer to it
+
+
+array
+Node *nodearray = new Node[10];
+
+...
+delete [] nodearray;
+- memory1 allocated with new, must deallocate with delete
+- new...[] (which is an array with size[]), have to -> delete []
+
+Test
+-ongoing activity not just at the end
+-begin testing before start coding
+-continuous after you start coding
+
+Test suits: describes expected behavior
+testing is different than debugging
+cannot debugging without testing
+-testing cannot guarantee correctness
+ideally, the tester and developer should be diff ppl
+-no general formula
+
+
+
+human testing look over code 
+code inspiration
+find flows manualy
+
+Machine testing
+-run program on selected input
+-check against spec 
+- choose test carefully
+< testcase/t1.in > ....
+the input should be from < ,output should be from >
+
+
+Types of testing:
+black box:
+input expected output,
+
+white box:
+for every single condition on structures(every if.... else....)
+
+
+grey box:
+test for specific branch
+
+diff in knoeledge of programming implementation
+eg:
+black box: focus functionality vs spec
+test cases.   valid input.    
+
+white box test -> open code
+branch covered
+-length < 3.    input d1 - >expected output:false
+hardcoded backdoor  Admin99 -> true
+             valid format d12345 -> true
+             
+how:
+start with black box
+        -> supplement with white box
+- should cover various classes of inputes(number,ranges, positives, negatives)
+-edge cases
+-cornercases (multiple simultaneous edge cases)
+- for the white box, we want to execute all logical
+-want every function runs
+
+-dont test invalid input unless a behaivior have been specified
+takes an integer,cant test for number,...etc
+
+IF the input is invalid, may be undifined behavior
+
+Regression testing 
+- make sure new changes dont break test results
+-rerun test suits, test scripts
+- always add test we never subtraced
+
+For A1-A3:
+two due day
+due day 1: test cases(black box test)
+           -provide correct program
+           -submit .in and .out files
+           -use buggy implementations
+due day 2: c++ implementation
+- match spec
+-can use DD1 tests (and supplement them)
+
+-testing partner help developing test cases for assignment
+- submit partner.txt
+
+
+
+Classes 
+-programmer's perspective: how to struct the program to reduce bugs
+-compilers: what constructs mean
+            what the compiler does
+-designer's perspective: how to use oop tools; basic SE
+
+struct Node{
+int data;
+Node *next;
+}
+struct Student{
+    int assns, est, finals;
+    float grade();
+}
+....
+
+float Student::grade(){
+    return assns*0.4+test*0.2+final*0.4
+}
+Student s {60,70,80}
+....
+
+class(Student)   object
+cout<< s.grade()<<endl;
+
+-class is activity struct type that contain functions
+-c++ has a classs keyword
+-mumber function = method
+mumber = fields
+- an object is an instance of class
+
+:: -> scope resolution operator
+c::f = f in the context of class C
+similar to "." but lhs is a class(or namespace)
